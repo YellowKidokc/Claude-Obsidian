@@ -10,7 +10,7 @@
 import { useApp } from '../../store';
 import { LayerRibbon } from '../Ribbon';
 import { Sidebar } from '../Sidebar';
-import { MarkdownEditor } from '../Editor';
+import { MarkdownEditor, BlockEditor } from '../Editor';
 
 export function MainLayout() {
   const { state } = useApp();
@@ -40,7 +40,7 @@ function renderLayerContent(layer: import('../../types').Layer) {
     case 'surface':
       return <MarkdownEditor />;
     case 'structure':
-      return <StructureView />;
+      return <BlockEditor />;
     case 'logic':
       return <LogicView />;
     case 'ai':
@@ -50,24 +50,8 @@ function renderLayerContent(layer: import('../../types').Layer) {
   }
 }
 
-// Placeholder components for other layers
-function StructureView() {
-  return (
-    <div className="h-full flex items-center justify-center">
-      <div className="text-center p-8">
-        <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">
-          Structure View
-        </h2>
-        <p className="text-[var(--color-text-muted)]">
-          Pages within pages, embeds, backlinks, and database views.
-        </p>
-        <p className="text-sm text-[var(--color-gold-500)] mt-4">
-          Coming in Phase 2
-        </p>
-      </div>
-    </div>
-  );
-}
+// Logic view - now showing formula blocks capability
+// Note: StructureView now uses BlockEditor which supports databases, formulas, etc.
 
 function LogicView() {
   return (

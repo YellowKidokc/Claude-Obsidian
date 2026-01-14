@@ -3,6 +3,7 @@
  */
 
 export * from './node';
+export * from './blocks';
 
 // Layer types for the 4-layer architecture
 export type Layer = 'surface' | 'structure' | 'logic' | 'ai';
