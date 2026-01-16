@@ -125,8 +125,8 @@ export function BlockRenderer({
         return (
           <CodeBlockComponent
             {...commonProps}
-            language={(block as any).language ?? 'plaintext'}
-            onLanguageChange={(lang) => onChange(block.id, { language: lang } as any)}
+            language={(block as import('../../types/blocks').CodeBlock).language ?? 'plaintext'}
+            onLanguageChange={(lang) => onChange(block.id, { language: lang })}
           />
         );
 
@@ -134,8 +134,8 @@ export function BlockRenderer({
         return (
           <TodoBlockComponent
             {...commonProps}
-            checked={(block as any).checked ?? false}
-            onCheckedChange={(checked) => onChange(block.id, { checked } as any)}
+            checked={(block as import('../../types/blocks').TodoBlock).checked ?? false}
+            onCheckedChange={(checked) => onChange(block.id, { checked })}
           />
         );
 
@@ -148,7 +148,7 @@ export function BlockRenderer({
       case 'database':
         return (
           <DatabaseBlockComponent
-            block={block as any}
+            block={block as import('../../types/blocks').DatabaseBlock}
             onChange={(updates) => onChange(block.id, updates)}
           />
         );
@@ -156,7 +156,7 @@ export function BlockRenderer({
       case 'formula':
         return (
           <FormulaBlockComponent
-            block={block as any}
+            block={block as import('../../types/blocks').FormulaBlock}
             onChange={(updates) => onChange(block.id, updates)}
           />
         );
@@ -164,7 +164,7 @@ export function BlockRenderer({
       case 'table':
         return (
           <TableBlockComponent
-            block={block as any}
+            block={block as import('../../types/blocks').TableBlock}
             onChange={(updates) => onChange(block.id, updates)}
           />
         );
@@ -173,8 +173,8 @@ export function BlockRenderer({
         return (
           <CalloutBlockComponent
             {...commonProps}
-            calloutType={(block as any).calloutType ?? 'info'}
-            onTypeChange={(type) => onChange(block.id, { calloutType: type } as any)}
+            calloutType={(block as import('../../types/blocks').CalloutBlock).calloutType ?? 'info'}
+            onTypeChange={(type) => onChange(block.id, { calloutType: type })}
           />
         );
 

@@ -159,7 +159,8 @@ export function DatabaseBlockComponent({ block, onChange }: DatabaseBlockProps) 
 
       const newColumns = block.schema.columns.filter((c) => c.id !== colId);
       const newRows = block.rows.map((row) => {
-        const { [colId]: _, ...remainingCells } = row.cells;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [colId]: _deletedCell, ...remainingCells } = row.cells;
         return { ...row, cells: remainingCells };
       });
 

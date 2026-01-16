@@ -25,11 +25,12 @@ export function BlockEditor() {
   // Re-parse when file changes
   useEffect(() => {
     if (state.activeFile?.content) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBlocks(parseMarkdownToBlocks(state.activeFile.content));
     } else {
       setBlocks([createBlock('text')]);
     }
-  }, [state.activeFilePath]);
+  }, [state.activeFilePath, state.activeFile?.content]);
 
   // Sync blocks back to content
   const syncToContent = useCallback(

@@ -294,7 +294,7 @@ access_tier: owner
         console.error(error);
       }
     },
-    [state.vaultPath]
+    [state.vaultPath, openFile, refreshFiles]
   );
 
   // Refresh files
@@ -354,6 +354,7 @@ access_tier: owner
 }
 
 // Hook
+// eslint-disable-next-line react-refresh/only-export-components
 export function useApp() {
   const context = useContext(AppContext);
   if (!context) {

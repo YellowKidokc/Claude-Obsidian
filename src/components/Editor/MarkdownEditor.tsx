@@ -59,6 +59,32 @@ export function MarkdownEditor() {
   );
   void _handleWikiLinkClick; // Reserved for preview mode
 
+  // Helper to wrap selection with characters
+  const wrapSelection = useCallback(
+    (
+      textarea: HTMLTextAreaElement,
+      before: string,
+      after: string
+    ) => {
+      const { selectionStart, selectionEnd, value } = textarea;
+      const selectedText = value.substring(selectionStart, selectionEnd);
+      const newValue =
+        value.substring(0, selectionStart) +
+        before +
+        selectedText +
+        after +
+        value.substring(selectionEnd);
+      dispatch({ type: 'UPDATE_FILE_CONTENT', payload: newValue });
+
+      setTimeout(() => {
+        textarea.selectionStart = selectionStart + before.length;
+        textarea.selectionEnd = selectionEnd + before.length;
+        textarea.focus();
+      }, 0);
+    },
+    [dispatch]
+  );
+
   // Handle keyboard shortcuts
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -99,31 +125,8 @@ export function MarkdownEditor() {
         wrapSelection(textarea, '[[', ']]');
       }
     },
-    [dispatch]
+    [dispatch, wrapSelection]
   );
-
-  // Helper to wrap selection with characters
-  const wrapSelection = (
-    textarea: HTMLTextAreaElement,
-    before: string,
-    after: string
-  ) => {
-    const { selectionStart, selectionEnd, value } = textarea;
-    const selectedText = value.substring(selectionStart, selectionEnd);
-    const newValue =
-      value.substring(0, selectionStart) +
-      before +
-      selectedText +
-      after +
-      value.substring(selectionEnd);
-    dispatch({ type: 'UPDATE_FILE_CONTENT', payload: newValue });
-
-    setTimeout(() => {
-      textarea.selectionStart = selectionStart + before.length;
-      textarea.selectionEnd = selectionEnd + before.length;
-      textarea.focus();
-    }, 0);
-  };
 
   // Auto-resize textarea
   useEffect(() => {

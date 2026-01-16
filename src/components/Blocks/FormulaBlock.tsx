@@ -22,29 +22,30 @@ export function FormulaBlockComponent({ block, onChange }: FormulaBlockProps) {
   useEffect(() => {
     if (!block.expression) {
       onChange({ result: undefined });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setError(null);
       return;
     }
 
     try {
       const result = evaluateFormula(block.expression);
-      onChange({
-        result: {
-          value: result,
-          computedAt: new Date(),
-        },
-      });
+      const newResult: FormulaResult = {
+        value: result,
+        computedAt: new Date(),
+      };
+      onChange({ result: newResult });
       setError(null);
     } catch (err) {
-      onChange({
-        result: {
-          value: null,
-          error: err instanceof Error ? err.message : 'Invalid formula',
-          computedAt: new Date(),
-        },
-      });
-      setError(err instanceof Error ? err.message : 'Invalid formula');
+      const errorMessage = err instanceof Error ? err.message : 'Invalid formula';
+      const newResult: FormulaResult = {
+        value: null,
+        error: errorMessage,
+        computedAt: new Date(),
+      };
+      onChange({ result: newResult });
+      setError(errorMessage);
     }
-  }, [block.expression]);
+  }, [block.expression, onChange]);
 
   const handleSubmit = useCallback(() => {
     onChange({ expression });
@@ -190,7 +191,7 @@ function evaluateFormula(expression: string): number | string | boolean {
     }
 
     return result;
-  } catch (err) {
+  } catch {
     throw new Error('Invalid formula syntax');
   }
 }
@@ -254,7 +255,7 @@ function evaluateFunctions(expr: string): string {
   // IF function
   expr = expr.replace(/IF\(([^,]+),\s*([^,]+),\s*([^)]+)\)/gi, (_, condition, ifTrue, ifFalse) => {
     // Simple comparison handling
-    let cond = condition.trim();
+    const cond = condition.trim();
     let result = false;
 
     if (cond.includes('>=')) {

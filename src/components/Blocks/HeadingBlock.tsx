@@ -53,7 +53,7 @@ export function HeadingBlockComponent({
 
   return (
     <Tag
-      ref={ref as any}
+      ref={ref as React.RefObject<HTMLHeadingElement> & React.RefObject<HTMLHeadingElement>}
       contentEditable
       suppressContentEditableWarning
       className={`
